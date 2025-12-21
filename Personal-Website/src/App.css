@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
-html{
-  background-color: #E6E9EC;
+body{
+  background-color: #000000;
+  scroll-behavior: auto;
+
 }
 .rubik-h1{
   font-family: "Rubik", sans-serif;
@@ -23,6 +25,15 @@ html{
   font-size: 1.2rem;
   font-optical-sizing: auto;
   font-weight: 500;
+  font-style: normal;
+  color: #1A314A;
+}
+
+.rubik-ps {
+  font-family: "Rubik", sans-serif;
+  font-size: 1.2rem;
+  font-optical-sizing: auto;
+  font-weight: 400;
   font-style: normal;
   color: #1A314A;
 }

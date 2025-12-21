@@ -8,36 +8,24 @@ import AboutPage from "./Pages/AboutPage.jsx";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 
-/* ----------------------------------------------
-   PROGRESSIVE SECTION ANIMATION
----------------------------------------------- */
-const pageVariant = (delay = 0) => ({
-  hidden: {
-    opacity: 0,
-    y: 32,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      delay,
-      ease: "easeOut",
-    },
-  },
-});
-
 function App() {
   useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+
     const lenis = new Lenis({
-      duration: 0.85,          // sensitive & fast
+      duration: 0.85,
       smoothWheel: true,
       smoothTouch: false,
       easing: (t) => 1 - Math.pow(1 - t, 2.5),
     });
 
+    lenis.scrollTo(0, { immediate: true });
+
     function raf(time) {
-      lenis.raf(time);        // ✅ correct timing
+      lenis.raf(time);
       requestAnimationFrame(raf);
     }
 
@@ -52,24 +40,31 @@ function App() {
     <>
       <Navbar />
 
-      {/* Landing Section — instant */}
-      <motion.div
-        variants={pageVariant(0)}
-        initial="hidden"
-        animate="visible"
-      >
-        <LandingPage />
-      </motion.div>
+      {/* Background layer */}
+      <LandingPage />
 
-      {/* About Section — subtle delayed reveal */}
-      <motion.div
-        variants={pageVariant(0.15)}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-120px" }}
+      {/* Foreground layer — slides OVER landing */}
+      <motion.section
+        initial={{
+          y: 80,
+        }}
+        whileInView={{
+          y: -100,
+        }}
+        transition={{
+          duration: 0.3,
+          ease: "easeOut",
+        }}
+        viewport={{ margin: "-200px" }}
+        className="
+          relative z-10
+          -mt-40
+          bg-[#E6E9EC]
+          shadow-[0_-30px_80px_rgba(0,0,0,0.15)]
+        "
       >
         <AboutPage />
-      </motion.div>
+      </motion.section>
     </>
   );
 }
