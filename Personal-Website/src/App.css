@@ -1,10 +1,34 @@
 @import "tailwindcss";
 
+*{
+  scrollbar-width: none;
+}
 body{
   background-color: #000000;
   scroll-behavior: auto;
-
 }
+
+.animated-gradient {
+  background: linear-gradient(
+    120deg,
+    #1a314a 0%,    /* dark blue */
+    #0f2233 50%,   /* deeper blue (near-black but not black) */
+    #3a6ea5 100%   /* blue */
+  );
+  background-size: 300% 100%;
+  animation: gradientMove 14s linear infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+
 .rubik-h1{
   font-family: "Rubik", sans-serif;
   font-optical-sizing: auto;
@@ -17,7 +41,6 @@ body{
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
-  color: #1A314A;
 }
 
 .rubik-p {
@@ -26,7 +49,6 @@ body{
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-  color: #1A314A;
 }
 
 .rubik-ps {
