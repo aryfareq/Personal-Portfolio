@@ -1,8 +1,10 @@
 import { FaLinkedin, FaGithub, FaInstagram } from "react-icons/fa";
 
+
+const Year = new Date().getFullYear();
 function Footer() {
   return (
-    <footer className="bg-[#1E344C] text-white px-6 sm:px-10 lg:px-20 py-12 sm:py-16">
+    <footer id="contact" className="bg-[#1E344C] text-white px-6 sm:px-10 lg:px-20 py-12 sm:py-16">
       {/* TOP SECTION */}
       <div
         className="
@@ -112,7 +114,7 @@ function Footer() {
 
       {/* BOTTOM */}
       <div className="text-center mt-6 text-white/70 text-sm">
-        © 2025. All Rights Reserved
+        © {Year}. All Rights Reserved
       </div>
     </footer>
   );

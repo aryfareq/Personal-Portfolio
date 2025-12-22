@@ -3,7 +3,7 @@ import { FiDownload } from "react-icons/fi";
 
 function AboutPage() {
   return (
-    <section className="w-full min-h-screen flex items-center justify-center bg-[#ffffff] px-6 sm:px-10 lg:px-16">
+    <section id="about" className="w-full min-h-screen flex items-center justify-center bg-[#ffffff] px-6 sm:px-10 lg:px-16">
       <motion.div
         className="max-w-[1100px] mx-auto flex flex-col items-center text-center"
         initial="hidden"

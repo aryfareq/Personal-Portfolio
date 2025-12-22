@@ -28,7 +28,7 @@ function ExperiencesSlider() {
   }, []);
 
   return (
-    <section className="w-screen my-16 md:my-24">
+    <section id="expertise" className="w-screen my-16 md:my-24">
       {/* TITLE */}
       <h1 className="rubik-h1 text-2xl sm:text-3xl md:text-4xl text-center">
         Places I Worked

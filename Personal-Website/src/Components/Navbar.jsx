@@ -3,9 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
-/* ----------------------------------------------
-   NAVBAR ANIMATION
----------------------------------------------- */
 const navbarVariant = {
   hidden: { opacity: 0, y: 10 },
   visible: {
@@ -15,23 +12,33 @@ const navbarVariant = {
   },
 };
 
-/* ----------------------------------------------
-   MOBILE MENU ANIMATION
----------------------------------------------- */
 const menuVariant = {
   hidden: { opacity: 0, y: -10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.25, ease: "easeOut" },
-  },
+  visible: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: -10 },
 };
 
 function Navbar() {
   const [open, setOpen] = useState(false);
 
-  const navItems = ["About", "Expertise", "Projects", "Contact"];
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    el.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    setOpen(false); // close mobile menu
+  };
+
+  const navItems = [
+    { label: "About", id: "about" },
+    { label: "Projects", id: "projects" },
+    { label: "Expertise", id: "expertise" },
+    { label: "Contact", id: "contact" },
+  ];
 
   return (
     <motion.nav
@@ -39,42 +46,45 @@ function Navbar() {
       initial="hidden"
       animate="visible"
       className="
-        absolute w-full z-10
+        absolute w-full z-50
         flex justify-between items-center
-        px-6 py-6
-        sm:px-10 sm:py-8
-        lg:px-16 lg:py-10
+        px-6 sm:px-10 lg:px-16
+        py-6 sm:py-8 lg:py-10
       "
     >
-      {/* Logo */}
-      <img src={Logo} alt="Logo" className="h-8 sm:h-9 md:h-10 w-auto" />
+      {/* LOGO */}
+      <img
+        src={Logo}
+        alt="Logo"
+        className="h-8 sm:h-9 md:h-10 cursor-pointer"
+        onClick={() => scrollTo("about")}
+      />
 
-      {/* Desktop Navigation */}
-      <ul className="hidden md:flex items-center gap-2 md:gap-3">
+      {/* DESKTOP NAV */}
+      <ul className="hidden md:flex items-center gap-3">
         {navItems.map((item) => (
-          <li key={item}>
+          <li key={item.id}>
             <button
+              onClick={() => scrollTo(item.id)}
               className="
                 text-white bg-neutral-primary
                 border-2 border-white
-                hover:bg-gray-200/25
-                font-medium leading-5
                 rounded-full
-                text-sm md:text-base
                 px-4 py-1
+                text-sm md:text-base
+                hover:bg-gray-200/25
                 transition-colors
               "
             >
-              {item}
+              {item.label}
             </button>
           </li>
         ))}
       </ul>
 
-      {/* Hamburger Button (Mobile) */}
+      {/* HAMBURGER */}
       <button
         onClick={() => setOpen((p) => !p)}
-        aria-label="Toggle menu"
         className="
           md:hidden
           text-white
@@ -82,13 +92,13 @@ function Navbar() {
           rounded-full
           p-2
           hover:bg-gray-200/25
-          transition-colors
         "
+        aria-label="Toggle menu"
       >
         {open ? <FiX size={22} /> : <FiMenu size={22} />}
       </button>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
       <AnimatePresence>
         {open && (
           <motion.ul
@@ -98,17 +108,15 @@ function Navbar() {
             exit="exit"
             className="
               absolute top-full left-0 w-full
+              bg-neutral-primary/95 backdrop-blur-md
               flex flex-col items-center gap-4
-              bg-neutral-primary/95
-              backdrop-blur-md
-              py-6
-              md:hidden
+              py-6 md:hidden
             "
           >
             {navItems.map((item) => (
-              <li key={item}>
+              <li key={item.id}>
                 <button
-                  onClick={() => setOpen(false)}
+                  onClick={() => scrollTo(item.id)}
                   className="
                     text-white
                     border-2 border-white
@@ -116,10 +124,9 @@ function Navbar() {
                     px-6 py-2
                     text-base
                     hover:bg-gray-200/25
-                    transition-colors
                   "
                 >
-                  {item}
+                  {item.label}
                 </button>
               </li>
             ))}

@@ -14,6 +14,7 @@ function ProjectsSlider() {
 
   return (
     <section
+      id="projects"
       ref={containerRef}
       className="
         relative

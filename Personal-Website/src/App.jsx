@@ -1,5 +1,7 @@
 import "./App.css";
 import Lenis from "@studio-freight/lenis";
+import { useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 
 import Navbar from "./Components/Navbar.jsx";
 import LandingPage from "./Pages/LandingPage.jsx";
@@ -8,10 +10,31 @@ import ProjectsSlider from "./Pages/ProjectsSlider.jsx";
 import ToolsMarquee from "./Pages/ToolsMarquee.jsx";
 import ExperiencesSlider from "./Pages/ExperiencesSlider.jsx";
 import Footer from "./Components/Footer.jsx";
-import { useEffect } from "react";
+import IntroLoader from "./Components/IntroLoader.jsx";
 
 function App() {
+  const [showIntro, setShowIntro] = useState(true);
+
+  /* ----------------------------------
+     INTRO LOADER (EVERY REFRESH)
+  ---------------------------------- */
   useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    const timer = setTimeout(() => {
+      setShowIntro(false);
+      document.body.style.overflow = "";
+    }, 2000); // ⏱ intro duration
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  /* ----------------------------------
+     LENIS SMOOTH SCROLL
+  ---------------------------------- */
+  useEffect(() => {
+    if (showIntro) return; // ⛔ wait until intro finishes
+
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
@@ -24,7 +47,7 @@ function App() {
       easing: (t) => 1 - Math.pow(1 - t, 2.5),
     });
 
-    // ✅ expose globally for ProjectsSlider
+    // expose globally for ProjectsSlider
     window.__lenis = lenis;
     window.dispatchEvent(new Event("lenis-ready"));
 
@@ -36,31 +59,41 @@ function App() {
     requestAnimationFrame(raf);
 
     return () => lenis.destroy();
-  }, []);
+  }, [showIntro]);
 
   return (
     <>
-      <Navbar />
+      {/* INTRO LOADER */}
+      <AnimatePresence>
+        {showIntro && <IntroLoader />}
+      </AnimatePresence>
 
-      {/* LANDING */}
-      <LandingPage />
+      {/* MAIN SITE */}
+      {!showIntro && (
+        <>
+          <Navbar />
 
-      {/* ABOUT — OVERLAP IS PURE CSS */}
-      <section
-        className="
-          relative z-20
-          bg-[#E6E9EC]
-          shadow-[0_-30px_80px_rgba(0,0,0,0.15)]
-        "
-      >
-          <AboutPage />
-      </section>
+          {/* LANDING */}
+          <LandingPage />
 
-      {/* PROJECTS */}
-      <ProjectsSlider />
-      <ToolsMarquee />
-      <ExperiencesSlider />
-      <Footer />
+          {/* ABOUT — OVERLAP IS PURE CSS */}
+          <section
+            className="
+              relative z-20
+              bg-[#E6E9EC]
+              shadow-[0_-30px_80px_rgba(0,0,0,0.15)]
+            "
+          >
+            <AboutPage />
+          </section>
+
+          {/* PROJECTS */}
+          <ProjectsSlider />
+          <ToolsMarquee />
+          <ExperiencesSlider />
+          <Footer />
+        </>
+      )}
     </>
   );
 }

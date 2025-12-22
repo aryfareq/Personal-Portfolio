@@ -5,7 +5,7 @@
 }
 body{
   background-color: #ffffff;
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
 }
 /* this is for the projects slider */
 .animated-gradient {
