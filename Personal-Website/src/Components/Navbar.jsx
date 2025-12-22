@@ -61,7 +61,7 @@ className={`
   py-4 sm:py-6
   transition-all duration-300
   ${scrolled
-    ? "bg-neutral-primary/85 backdrop-blur-md shadow-lg"
+    ? "bg-[#1A314A]/20 backdrop-blur-md shadow-md"
     : "bg-transparent"}
   ${hidden ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"}
 `}
