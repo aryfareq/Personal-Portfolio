@@ -1,8 +1,8 @@
-import ecoLogo from "../assets/Images/ECO.png";
-import ryoLogo from "../assets/Images/RYO.png";
-import iqLogo from "../assets/Images/IQ.png";
-import mktaLogo from "../assets/Images/MKTA.png";
-import tryMeLogo from "../assets/Images/TRYME.png";
+import ecoLogo from "../assets/images/ECO.png";
+import ryoLogo from "../assets/images/RYO.png";
+import iqLogo from "../assets/images/IQ.png";
+import mktaLogo from "../assets/images/MKTA.png";
+import tryMeLogo from "../assets/images/TRYME.png";
 
 export const experiencesData = [
   {
