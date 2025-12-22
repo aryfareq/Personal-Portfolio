@@ -6,7 +6,7 @@ function LandingPage() {
     <section
       className="
         relative min-h-screen z-0
-        bg-[url('/ari.avif')]
+        bg-[url('/Ari.avif')]
         bg-cover bg-center bg-no-repeat
       "
     >
