@@ -1,4 +1,4 @@
-import Logo from "../assets/Images/Logo.svg";
+import Logo from "../assets/images/Logo.svg";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
