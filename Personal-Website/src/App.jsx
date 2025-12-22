@@ -6,6 +6,7 @@ import LandingPage from "./Pages/LandingPage.jsx";
 import AboutPage from "./Pages/AboutPage.jsx";
 import ProjectsSlider from "./Pages/ProjectsSlider.jsx";
 import ToolsMarquee from "./Pages/ToolsMarquee.jsx";
+import ExperiencesSlider from "./Pages/ExperiencesSlider.jsx";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 
@@ -67,6 +68,7 @@ function App() {
       {/* PROJECTS */}
       <ProjectsSlider />
       <ToolsMarquee />
+      <ExperiencesSlider />
     </>
   );
 }
