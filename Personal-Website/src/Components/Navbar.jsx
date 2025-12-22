@@ -1,36 +1,45 @@
 import Logo from "../assets/Images/Logo.svg";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-
-const navbarVariant = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, delay: 0.5, ease: "easeOut" },
-  },
-};
-
-const menuVariant = {
-  hidden: { opacity: 0, y: -10 },
-  visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -10 },
-};
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+
+  /* -------------------------------
+     APPLY BACKGROUND AFTER SCROLL
+  -------------------------------- */
+useEffect(() => {
+  const onScroll = () => {
+    const scrollY = window.scrollY;
+    const viewportHeight = window.innerHeight;
+
+    // 🔹 background appears after half screen
+    setScrolled(scrollY > viewportHeight / 2);
+
+    // 🔹 hide navbar when footer is reached
+    const footer = document.getElementById("contact");
+    if (!footer) return;
+
+    const footerTop = footer.getBoundingClientRect().top;
+
+    // when footer is entering the viewport
+    setHidden(footerTop < viewportHeight);
+  };
+
+  window.addEventListener("scroll", onScroll);
+  return () => window.removeEventListener("scroll", onScroll);
+}, []);
+
 
   const scrollTo = (id) => {
     const el = document.getElementById(id);
     if (!el) return;
 
-    el.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-
-    setOpen(false); // close mobile menu
+    el.scrollIntoView({ behavior: "smooth" });
+    setOpen(false);
   };
 
   const navItems = [
@@ -42,15 +51,20 @@ function Navbar() {
 
   return (
     <motion.nav
-      variants={navbarVariant}
-      initial="hidden"
-      animate="visible"
-      className="
-        absolute w-full z-50
-        flex justify-between items-center
-        px-6 sm:px-10 lg:px-16
-        py-6 sm:py-8 lg:py-10
-      "
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+className={`
+  fixed top-0 left-0 w-full z-50
+  flex justify-between items-center
+  px-6 sm:px-10 lg:px-16
+  py-4 sm:py-6
+  transition-all duration-300
+  ${scrolled
+    ? "bg-neutral-primary/85 backdrop-blur-md shadow-lg"
+    : "bg-transparent"}
+  ${hidden ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"}
+`}
     >
       {/* LOGO */}
       <img
@@ -67,7 +81,7 @@ function Navbar() {
             <button
               onClick={() => scrollTo(item.id)}
               className="
-                text-white bg-neutral-primary
+                text-white
                 border-2 border-white
                 rounded-full
                 px-4 py-1
@@ -102,10 +116,9 @@ function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.ul
-            variants={menuVariant}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             className="
               absolute top-full left-0 w-full
               bg-neutral-primary/95 backdrop-blur-md
