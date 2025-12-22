@@ -1,69 +1,97 @@
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import Projects from "../Components/Projects.jsx";
 import { projectsData } from "../Components/Projects.js";
 
-const SLIDE_DURATION = 5000; // 5 seconds per slide
-
 function ProjectsSlider() {
-  const [index, setIndex] = useState(0);
-  const [progress, setProgress] = useState(0);
+  const containerRef = useRef(null);
 
-  /* ----------------------------------
-     AUTO SLIDE TIMER
-  ---------------------------------- */
-  useEffect(() => {
-    const startTime = Date.now();
+  const animatedSlides = projectsData.length - 1;
 
-    const progressInterval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const percentage = Math.min((elapsed / SLIDE_DURATION) * 100, 100);
-      setProgress(percentage);
-    }, 50);
-
-    const slideTimeout = setTimeout(() => {
-      setIndex((prev) => (prev === projectsData.length - 1 ? 0 : prev + 1));
-      setProgress(0);
-    }, SLIDE_DURATION);
-
-    return () => {
-      clearInterval(progressInterval);
-      clearTimeout(slideTimeout);
-    };
-  }, [index]);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
 
   return (
-    <section className="h-[65vh] w-screen relative overflow-hidden">
-  {/* 🌊 STATIC ANIMATED BACKGROUND */}
-  <div className="absolute inset-0 animated-gradient" />
+    <section ref={containerRef} className="relative h-[300vh] w-screen">
+      {/* PINNED AREA */}
+      <div className="sticky top-0 h-screen w-screen overflow-hidden">
+        <div className="relative h-full w-full">
 
-  {/* 🎞 SLIDES (move independently) */}
-  <AnimatePresence mode="wait">
-    <motion.div
-      key={index}
-      className="relative z-10 w-screen h-full"
-      initial={{ opacity: 0, x: 60 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -60 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      <Projects {...projectsData[index]} />
-    </motion.div>
-  </AnimatePresence>
+          {/* RENDER ALL SLIDES */}
+          {projectsData.map((project, index) => {
+            // FIRST SLIDE — static
+            if (index === 0) {
+              // Darkness driven by slide 1
+              const darken = useTransform(
+                scrollYProgress,
+                [0, 1 / animatedSlides],
+                [0, 0.45]
+              );
 
-  {/* UI stays on top */}
-  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-    {projectsData.map((_, i) => (
-      <span
-        key={i}
-        className={`h-[3px] w-10 rounded-full ${
-          i <= index ? "bg-white" : "bg-white/30"
-        }`}
-      />
-    ))}
-  </div>
-</section>
+              return (
+                <div
+                  key={project.name}
+                  className="absolute inset-0 flex items-center justify-center"
+                  style={{ backgroundColor: project.bg }}
+                >
+                  <Projects {...project} />
 
+                  {/* DARKENING OVERLAY */}
+                  <motion.div
+                    style={{ opacity: darken }}
+                    className="absolute inset-0 bg-black pointer-events-none"
+                  />
+                </div>
+              );
+            }
+
+            // ALL OTHER SLIDES
+            const start = (index - 1) / animatedSlides;
+            const end = index / animatedSlides;
+
+            const y = useTransform(
+              scrollYProgress,
+              [start, end],
+              ["100%", "0%"]
+            );
+
+            // Darkness for THIS slide comes from NEXT slide
+            const darken = index < projectsData.length - 1
+              ? useTransform(
+                  scrollYProgress,
+                  [end, end + 1 / animatedSlides],
+                  [0, 0.45]
+                )
+              : null;
+
+            return (
+              <motion.div
+                key={project.name}
+                style={{ y, backgroundColor: project.bg }}
+                className="
+                  absolute inset-0
+                  flex items-center justify-center
+                  w-screen h-screen
+                "
+              >
+                <Projects {...project} />
+
+                {/* DARKEN THIS SLIDE WHEN NEXT SLIDE COMES */}
+                {darken && (
+                  <motion.div
+                    style={{ opacity: darken }}
+                    className="absolute inset-0 bg-black pointer-events-none"
+                  />
+                )}
+              </motion.div>
+            );
+          })}
+
+        </div>
+      </div>
+    </section>
   );
 }
 

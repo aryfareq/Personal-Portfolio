@@ -3,7 +3,8 @@ import VerticalLine from "./VerticalLine.jsx";
 
 function Projects({ title, points, name }) {
   return (
-    <div className="flex items-center justify-around text-white gap-10">
+<div className="flex items-center justify-around text-white gap-10 h-full px-16">
+
 
       {/* LEFT TITLE */}
       <h1 className="rubik-h1 text-7xl font-bold w-1/4">
