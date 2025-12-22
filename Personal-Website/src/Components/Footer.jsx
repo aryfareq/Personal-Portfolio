@@ -46,20 +46,6 @@ function Footer() {
               >
                 Email Me
               </button>
-
-              <a
-                href="#contact"
-                className="
-                  border border-white/70
-                  px-6 py-3 rounded-full
-                  font-semibold
-                  text-center
-                  hover:bg-white/10
-                  transition
-                "
-              >
-                Contact Form
-              </a>
             </div>
           </div>
 
