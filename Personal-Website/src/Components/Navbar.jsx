@@ -8,36 +8,30 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
 
-  /* -------------------------------
-     APPLY BACKGROUND AFTER SCROLL
+  /* --------------------------------
+     SCROLL BEHAVIOR
   -------------------------------- */
-useEffect(() => {
-  const onScroll = () => {
-    const scrollY = window.scrollY;
-    const viewportHeight = window.innerHeight;
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
 
-    // 🔹 background appears after half screen
-    setScrolled(scrollY > viewportHeight / 2);
+      setScrolled(scrollY > viewportHeight / 2);
 
-    // 🔹 hide navbar when footer is reached
-    const footer = document.getElementById("contact");
-    if (!footer) return;
+      const footer = document.getElementById("contact");
+      if (!footer) return;
 
-    const footerTop = footer.getBoundingClientRect().top;
+      const footerTop = footer.getBoundingClientRect().top;
+      setHidden(footerTop < viewportHeight);
+    };
 
-    // when footer is entering the viewport
-    setHidden(footerTop < viewportHeight);
-  };
-
-  window.addEventListener("scroll", onScroll);
-  return () => window.removeEventListener("scroll", onScroll);
-}, []);
-
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const scrollTo = (id) => {
     const el = document.getElementById(id);
     if (!el) return;
-
     el.scrollIntoView({ behavior: "smooth" });
     setOpen(false);
   };
@@ -50,103 +44,122 @@ useEffect(() => {
   ];
 
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-className={`
-  fixed top-0 left-0 w-full z-50
-  flex justify-between items-center
-  px-6 sm:px-10 lg:px-16
-  py-4 sm:py-6
-  transition-all duration-300
-  ${scrolled
-    ? "bg-[#1A314A]/20 backdrop-blur-md shadow-md"
-    : "bg-transparent"}
-  ${hidden ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"}
-`}
-    >
-      {/* LOGO */}
-      <img
-        src={Logo}
-        alt="Logo"
-        className="h-8 sm:h-9 md:h-10 cursor-pointer"
-        onClick={() => scrollTo("about")}
-      />
-
-      {/* DESKTOP NAV */}
-      <ul className="hidden md:flex items-center gap-3">
-        {navItems.map((item) => (
-          <li key={item.id}>
-            <button
-              onClick={() => scrollTo(item.id)}
-              className="
-                text-white
-                border-2 border-white
-                rounded-full
-                px-4 py-1
-                text-sm md:text-base
-                hover:bg-gray-200/25
-                transition-colors
-              "
-            >
-              {item.label}
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      {/* HAMBURGER */}
-      <button
-        onClick={() => setOpen((p) => !p)}
-        className="
-          md:hidden
-          text-white
-          border-2 border-white
-          rounded-full
-          p-2
-          hover:bg-gray-200/25
-        "
-        aria-label="Toggle menu"
+    <>
+      {/* NAVBAR */}
+      <motion.nav
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className={`
+          fixed top-0 left-0 w-full z-50
+          flex justify-between items-center
+          px-6 sm:px-10 lg:px-16
+          py-4 sm:py-6
+          transition-all duration-300
+          ${scrolled ? "bg-[#1A314A]/30 backdrop-blur-md shadow-md" : "bg-transparent"}
+          ${hidden ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"}
+        `}
       >
-        {open ? <FiX size={22} /> : <FiMenu size={22} />}
-      </button>
+        {/* LOGO — hidden on mobile */}
+        <img
+          src={Logo}
+          alt="Logo"
+          className="hidden md:block h-9 cursor-pointer"
+          onClick={() => scrollTo("about")}
+        />
 
-      {/* MOBILE MENU */}
+        {/* DESKTOP NAV */}
+        <ul className="hidden md:flex items-center gap-3 ml-auto">
+          {navItems.map((item) => (
+            <li key={item.id}>
+              <button
+                onClick={() => scrollTo(item.id)}
+                className="
+                  text-white border-2 border-white
+                  rounded-full px-4 py-1
+                  hover:bg-white/20 transition
+                "
+              >
+                {item.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        {/* MOBILE HAMBURGER */}
+        <button
+          onClick={() => setOpen(true)}
+          className="
+            md:hidden ml-auto
+            text-white border-2 border-white
+            rounded-full p-2
+            hover:bg-white/20
+          "
+          aria-label="Open menu"
+        >
+          <FiMenu size={22} />
+        </button>
+      </motion.nav>
+
+      {/* MOBILE OVERLAY + SIDE DRAWER */}
       <AnimatePresence>
         {open && (
-          <motion.ul
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="
-              absolute top-full left-0 w-full
-              bg-neutral-primary/95 backdrop-blur-md
-              flex flex-col items-center gap-4
-              py-6 md:hidden
-            "
-          >
-            {navItems.map((item) => (
-              <li key={item.id}>
+          <>
+            {/* OVERLAY */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
+            />
+
+            {/* SIDE MENU */}
+            <motion.aside
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="
+                fixed top-0 right-0 z-50
+                h-full w-[80%] max-w-sm
+                bg-[#1A314A]/40 backdrop-blur-xl
+                flex flex-col items-center justify-center
+                gap-6
+                md:hidden
+              "
+            >
+              {/* CLOSE */}
+              <button
+                onClick={() => setOpen(false)}
+                className="absolute top-6 right-6 text-white"
+                aria-label="Close menu"
+              >
+                <FiX size={26} />
+              </button>
+
+              {/* LINKS */}
+              {navItems.map((item) => (
                 <button
+                  key={item.id}
                   onClick={() => scrollTo(item.id)}
                   className="
-                    text-white
+                    text-white text-lg
                     border-2 border-white
                     rounded-full
-                    px-6 py-2
-                    text-base
-                    hover:bg-gray-200/25
+                    px-8 py-2
+                    hover:bg-white/20
+                    transition
                   "
                 >
                   {item.label}
                 </button>
-              </li>
-            ))}
-          </motion.ul>
+              ))}
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
   );
 }
 
