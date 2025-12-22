@@ -1,19 +1,15 @@
-import Ari from "../assets/images/Ari.avif";
 import { motion } from "framer-motion";
 import { FiArrowDown } from "react-icons/fi";
 
 function LandingPage() {
   return (
     <section
-      className="relative min-h-screen z-0"
-      style={{
-        backgroundImage: `url(${Ari})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="
+        relative min-h-screen z-0
+        bg-[url('/ari.avif')]
+        bg-cover bg-center bg-no-repeat
+      "
     >
-
       {/* SCROLL HINT */}
       <motion.div
         className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center text-white/80"

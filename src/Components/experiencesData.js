@@ -3,6 +3,7 @@ import ryoLogo from "../assets/images/RYO.png";
 import iqLogo from "../assets/images/IQ.png";
 import mktaLogo from "../assets/images/MKTA.png";
 import tryMeLogo from "../assets/images/TRYME.png";
+import mulkLogo from "../assets/images/MULK.png";
 
 export const experiencesData = [
   {
@@ -39,5 +40,12 @@ export const experiencesData = [
     description:
       "TryMe2024 was an intensive, hands-on full-stack web development program where I strengthened my skills in both frontend and backend development. I worked with HTML, CSS, JavaScript, React, Node.js, and databases, applying software engineering principles to real-world projects.",
     logo: tryMeLogo,
+  },
+  {
+    title: "Data Collection Assistant",
+    org: "Mulk News Agency",
+    description:
+      "As a Data Collection Assistant at Mulk News Agency, I collected, organized, and validated data from over 50 residential housing projects for internal analysis. I supported the development of real estate insights and market reports by ensuring data accuracy, consistency, and usability for strategic decision-making.",
+    logo: mulkLogo,
   },
 ];

@@ -56,11 +56,19 @@ function Navbar() {
           px-6 sm:px-10 lg:px-16
           py-4 sm:py-6
           transition-all duration-300
-          ${scrolled ? "bg-[#1A314A]/30 backdrop-blur-md shadow-md" : "bg-transparent"}
-          ${hidden ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"}
+          ${
+            scrolled
+              ? "bg-[#1A314A]/30 backdrop-blur-md shadow-md"
+              : "bg-transparent"
+          }
+          ${
+            hidden
+              ? "-translate-y-full opacity-0"
+              : "translate-y-0 opacity-100"
+          }
         `}
       >
-        {/* LOGO — hidden on mobile */}
+        {/* LOGO (desktop only) */}
         <img
           src={Logo}
           alt="Logo"
@@ -68,7 +76,7 @@ function Navbar() {
           onClick={() => scrollTo("about")}
         />
 
-        {/* DESKTOP NAV */}
+        {/* DESKTOP NAV (PILLS KEPT) */}
         <ul className="hidden md:flex items-center gap-3 ml-auto">
           {navItems.map((item) => (
             <li key={item.id}>
@@ -101,7 +109,7 @@ function Navbar() {
         </button>
       </motion.nav>
 
-      {/* MOBILE OVERLAY + SIDE DRAWER */}
+      {/* MOBILE OVERLAY + DRAWER */}
       <AnimatePresence>
         {open && (
           <>
@@ -114,7 +122,7 @@ function Navbar() {
               className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
             />
 
-            {/* SIDE MENU */}
+            {/* SIDE DRAWER */}
             <motion.aside
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -123,9 +131,8 @@ function Navbar() {
               className="
                 fixed top-0 right-0 z-50
                 h-full w-[80%] max-w-sm
-                bg-[#1A314A]/40 backdrop-blur-xl
-                flex flex-col items-center justify-center
-                gap-6
+                bg-[#1A314A]/50 backdrop-blur-xl
+                flex flex-col
                 md:hidden
               "
             >
@@ -138,23 +145,41 @@ function Navbar() {
                 <FiX size={26} />
               </button>
 
-              {/* LINKS */}
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollTo(item.id)}
-                  className="
-                    text-white text-lg
-                    border-2 border-white
-                    rounded-full
-                    px-8 py-2
-                    hover:bg-white/20
-                    transition
-                  "
-                >
-                  {item.label}
-                </button>
-              ))}
+              {/* HEADER (RECOMMENDATION 1: LOGO) */}
+              <div className="flex flex-col items-center mt-20 mb-10">
+                <img
+                  src={Logo}
+                  alt="Logo"
+                  className="h-10 mb-4 opacity-90"
+                />
+                <span className="text-white/50 text-xs tracking-widest uppercase">
+                  Navigation
+                </span>
+              </div>
+
+              {/* LINKS (RECOMMENDATION 2: CLEAN LIST) */}
+              <nav className="px-10">
+                <ul className="flex flex-col gap-6">
+                  {navItems.map((item) => (
+                    <li
+                      key={item.id}
+                      className="border-b border-white/20 pb-4"
+                    >
+                      <button
+                        onClick={() => scrollTo(item.id)}
+                        className="
+                          w-full text-left
+                          text-white text-2xl
+                          font-medium tracking-wide
+                          hover:opacity-70 transition
+                        "
+                      >
+                        {item.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
             </motion.aside>
           </>
         )}

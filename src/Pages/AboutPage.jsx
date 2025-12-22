@@ -80,7 +80,7 @@ function AboutPage() {
           className="mt-12 sm:mt-16 md:mt-20"
         >
           <a
-            href="/Hiwa-CV.pdf"
+            href="src/assets/HiwaFareeqResume.pdf"
             download
             className="
               inline-flex items-center gap-3
