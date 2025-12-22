@@ -8,7 +8,7 @@ function ExperiencesSlider() {
   const slidesCount = experiencesData.length;
 
   return (
-    <section className="w-screen h-[50vh] overflow-hidden">
+    <section className="w-screen h-[50vh] overflow-hidden my-10">
       <motion.div
         ref={trackRef}
         drag="x"

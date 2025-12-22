@@ -1,51 +1,94 @@
-import Line from "../assets/Images/LINE.svg";
-import TitleWithLine from "../Components/TitleWithLine.jsx";
+import { motion } from "framer-motion";
+import { FiDownload } from "react-icons/fi";
+
+
 function AboutPage() {
   return (
-    <div>
-      <div className="flex justify-center items-start gap-10 p-10 mt-48">
-        <img src={Line} alt="Line" />
-        <div>
-          <h2 className="rubik-h2 text-[58px] text-[#1A314A]">
-            From complex requirements to clean interfaces
-          </h2>
-          <span className="flex justify-between items-start mt-10">
-            <p className="rubik-p w-[600px] text-[#1A314A]">
-              I’m a software engineer specializing in JavaScript, React.js,
-              HTML, and CSS, focused on building responsive, accessible web
-              applications and translating designs into high-quality, functional
-              interfaces within agile teams.
-            </p>
-            <p className="rubik-p w-[600px] text-[#1A314A]">
-              I also have backend experience with Node.js, Express.js, Next.js,
-              and relational databases such as PostgreSQL and MySQL, enabling me
-              to work comfortably across the full stack.
-            </p>
-          </span>
-        </div>
-      </div>
-      <span className="flex justify-around items-start mx-15 pb-30 gap-10">
-        <span>
-      <TitleWithLine title="Software Engineering" />
-        <p className="rubik-ps w-[550px] text-[#1A314A]">
-          Completed a Software Engineering major with strong foundations in
-          programming, OOP, design patterns, data structures, and algorithms,
-          complemented by hands-on experience in software architecture, UML
-          modeling, requirements analysis, and building scalable, maintainable
-          systems.
-        </p>
-        </span>
-        <span>
-      <TitleWithLine title="Business Administration"/>
-        <p className="rubik-ps w-[550px] text-[#1A314A]">
-          Completed a minor in Business Administration with foundations in
-          business management, human resources, economics, accounting, and
-          business statistics, emphasizing organizational operations, financial
-          principles, and data-driven decision-making.
-        </p>
-        </span>
-      </span>
-    </div>
+    <section className="w-full min-h-screen flex items-center justify-center bg-[#ffffff] px-10">
+      <motion.div
+        className="max-w-[1100px] mx-auto flex flex-col items-center text-center"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-150px" }}
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: 0.30,
+            },
+          },
+        }}
+      >
+
+        {/* =========================
+            MAIN STATEMENT
+        ========================= */}
+        <motion.h1
+          variants={{
+            hidden: { opacity: 0, y: 40 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="rubik-h1 text-[2rem] md:text-[2rem] text-[#1A314A] leading-tight max-w-[1000px]"
+        >
+          I’m Hiwa — a Full Stack Developer crafting fast, scalable, and
+          immersive digital experiences that merge creativity with engineering
+          precision.
+        </motion.h1>
+
+        {/* =========================
+            SUPPORTING PARAGRAPH
+        ========================= */}
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: 40 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="rubik-ps text-[#1A314A] text-[1rem] max-w-[780px] mt-16 leading-relaxed"
+        >
+          I specialize in developing Websites and Web Applications, AI-driven products, and
+          interactive web experiences using modern technologies like React,
+          Node.js, Framer motion, and many more!
+        </motion.p>
+
+        {/* =========================
+    CTA
+========================= */}
+<motion.div
+  variants={{
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0 },
+  }}
+  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+  className="mt-20"
+>
+  <a
+    href="/Hiwa-CV.pdf"   // 👈 put your CV in /public
+    download
+    className="
+      inline-flex items-center gap-3
+      bg-[#1A314A] border-2 border-[#ffffff]
+      text-[#ffffff]
+      px-8 py-4
+      rounded-full
+      font-semibold
+      hover:text-[#1A314A]
+      hover:bg-[#ffffff]
+      hover:border-2
+      hover:border-[#1A314A]
+      transition-colors
+      duration-200 ease-in-out
+    "
+  >
+    <FiDownload className="text-lg" />
+    Download CV
+  </a>
+</motion.div>
+
+      </motion.div>
+    </section>
   );
 }
+
 export default AboutPage;

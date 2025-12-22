@@ -74,8 +74,8 @@ body{
   backdrop-filter: blur(6px);
   color: #1A314A;
   white-space: nowrap;
-  border: 5px solid #1A314A;
-  font-size: 3rem;
+  border: 3px solid #1A314A;
+  font-size: 2rem;
   font-weight: 600;
   font-family: "Rubik", sans-serif;
 }
@@ -132,9 +132,7 @@ body{
 
 .rubik-ps {
   font-family: "Rubik", sans-serif;
-  font-size: 1.2rem;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  color: #1A314A;
 }

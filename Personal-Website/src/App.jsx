@@ -50,20 +50,11 @@ function App() {
       <section
         className="
           relative z-20
-          -mt-48
           bg-[#E6E9EC]
           shadow-[0_-30px_80px_rgba(0,0,0,0.15)]
         "
       >
-        {/* Animate inner content ONLY (safe) */}
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}   // 👈 THIS WAS MISSING
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          viewport={{ once: true, margin: "-150px" }}
-        >
           <AboutPage />
-        </motion.div>
       </section>
 
       {/* PROJECTS */}
