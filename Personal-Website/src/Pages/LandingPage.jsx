@@ -1,4 +1,4 @@
-import Ari from "../assets/Images/Ari.png";
+import Ari from "../assets/Images/Ari.AVIF";
 import { motion } from "framer-motion";
 import { FiArrowDown } from "react-icons/fi";
 
