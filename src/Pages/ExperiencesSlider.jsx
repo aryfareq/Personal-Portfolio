@@ -7,22 +7,25 @@ import { experiencesData } from "../Components/experiencesData.js";
 function ExperiencesSlider() {
   const containerRef = useRef(null);
   const slideRef = useRef(null);
-
   const x = useMotionValue(0);
 
   const [dragLimit, setDragLimit] = useState(0);
   const [slideWidth, setSlideWidth] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const calculate = () => {
       if (!containerRef.current || !slideRef.current) return;
-
       const containerWidth = containerRef.current.offsetWidth;
       const singleSlideWidth = slideRef.current.offsetWidth;
       const totalWidth = singleSlideWidth * experiencesData.length;
 
+      setIsMobile(window.innerWidth < 768);
       setSlideWidth(singleSlideWidth);
-      setDragLimit(Math.max(totalWidth - containerWidth, 0));
+      
+      // Calculate limit so the last slide stops at the right edge
+      const limit = Math.max(totalWidth - containerWidth, 0);
+      setDragLimit(limit);
     };
 
     calculate();
@@ -31,20 +34,18 @@ function ExperiencesSlider() {
   }, []);
 
   const handleDragEnd = (_, info) => {
+    if (!isMobile) return;
     const currentX = x.get();
     const velocity = info.velocity.x;
 
     let targetIndex = Math.round(Math.abs(currentX) / slideWidth);
-
-    // velocity-based snap
     if (velocity < -500) targetIndex += 1;
     if (velocity > 500) targetIndex -= 1;
 
-    targetIndex = Math.max(0, Math.min(targetIndex, experiencesData.length - 1));
+    const maxIndex = experiencesData.length - 1;
+    targetIndex = Math.max(0, Math.min(targetIndex, maxIndex));
 
-    const targetX = -targetIndex * slideWidth;
-
-    animate(x, targetX, {
+    animate(x, -targetIndex * slideWidth, {
       type: "spring",
       stiffness: 300,
       damping: 30,
@@ -52,28 +53,32 @@ function ExperiencesSlider() {
   };
 
   return (
-    <section id="expertise" className="w-screen my-16 md:my-24">
+    <section id="expertise" className="w-screen my-16 md:my-24 overflow-hidden">
       {/* TITLE */}
       <h1 className="rubik-h1 text-2xl sm:text-3xl md:text-4xl text-center">
         Places I Worked
       </h1>
 
+      {/* INTERACTION HINT */}
       <p className="rubik-ps text-center text-slate-500 mt-2 mb-6 flex items-center justify-center gap-2">
         <FiArrowLeft />
-        Drag to See
+        {isMobile ? "Drag to See" : "Scroll to See"}
         <FiArrowRight />
       </p>
 
-      {/* SLIDER */}
+      {/* SLIDER CONTAINER */}
       <div
         ref={containerRef}
-        className="w-screen h-[65vh] sm:h-[55vh] overflow-hidden"
+        className={`w-screen h-[65vh] sm:h-[55vh] relative ${
+          isMobile 
+            ? "overflow-hidden" 
+            : "overflow-x-auto snap-x snap-mandatory no-scrollbar scroll-smooth"
+        }`}
       >
         <motion.div
-          drag="x"
-          style={{ x }}
+          drag={isMobile ? "x" : false}
+          style={isMobile ? { x } : {}}
           dragElastic={0.08}
-          dragMomentum
           dragConstraints={{ left: -dragLimit, right: 0 }}
           onDragEnd={handleDragEnd}
           className="flex h-full cursor-grab active:cursor-grabbing select-none"
@@ -82,11 +87,12 @@ function ExperiencesSlider() {
             <div
               key={i}
               ref={i === 0 ? slideRef : null}
-              className="
+              className={`
                 w-screen md:w-[50vw]
                 h-full flex-shrink-0
                 border-r border-slate-300/60
-              "
+                ${!isMobile ? "snap-start" : ""} 
+              `}
             >
               <Experience {...exp} />
             </div>
