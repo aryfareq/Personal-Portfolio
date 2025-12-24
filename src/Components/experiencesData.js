@@ -28,10 +28,10 @@ export const experiencesData = [
     logo: iqLogo,
   },
   {
-    title: "Web & Media Support",
+    title: "Media Support",
     org: "Mohammedkhani Training Academy",
     description:
-      "Managed and maintained the organization’s website, handled updates and content publishing, and led social media strategy by creating, scheduling, and optimizing digital content using design and media tools, resulting in increased engagement and online visibility.",
+      "Managed and maintained the organization’s social media platforms, handled updates and content publishing, and led social media strategy by creating, scheduling, and optimizing digital content using design and media tools, resulting in increased engagement and online visibility.",
     logo: mktaLogo,
   },
   {
