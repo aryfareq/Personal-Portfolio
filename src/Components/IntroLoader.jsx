@@ -22,16 +22,15 @@ function IntroLoader() {
     }
   };
 
-  // WAVE ANIMATION: Scaling from the center
   const waveVariants = {
     animate: (i) => ({
-      scaleY: [0.3, 1.5, 0.3], // Contracts to 30% and expands to 150%
+      scaleY: [0.3, 1.5, 0.3],
       opacity: [0.2, 1, 0.2],
       transition: {
         duration: 1,
         repeat: Infinity,
         ease: "easeInOut",
-        delay: i * 0.15, // Staggered delay for wave effect
+        delay: i * 0.15,
       },
     }),
   };
@@ -41,37 +40,38 @@ function IntroLoader() {
       variants={containerVariants}
       initial="initial"
       exit="exit"
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#1E344C] text-white"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#1E344C] text-white px-6"
     >
-      <div className="flex flex-col items-center">
+      {/* Container: items-center centers the children horizontally */}
+      <div className="flex flex-col items-center max-w-7xl w-full">
         
-        {/* ORIGINAL TEXT STYLE */}
-        <div className="overflow-hidden">
+        <div className="overflow-hidden w-full">
           <motion.div
             variants={textVariants}
             initial="initial"
             animate="animate"
-            className="text-center"
+            className="flex flex-col items-center text-center"
           >
-            <h1 className="rubik-h1 text-5xl md:text-7xl font-bold tracking-tighter">
-              Hiwa
+            <h1 className="rubik-h1 text-4xl md:text-7xl font-bold tracking-tighter leading-tight">
+              Patience is bitter, but its fruit is sweet.
             </h1>
             
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 1 }}
+              className="w-full flex justify-center" // Ensures the subtext wrapper is centered
             >
-              <p className="rubik-ps text-white/50 mt-4 flex items-center gap-3 uppercase tracking-[0.2em] text-xs md:text-sm">
-                <span className="h-[1px] w-8 bg-white/20"></span>
-                Full Stack Developer
-                <span className="h-[1px] w-8 bg-white/20"></span>
+              <p className="rubik-ps text-white/50 mt-6 flex items-center justify-center gap-3 uppercase tracking-[0.2em] text-[10px] md:text-sm">
+                <span className="h-[1px] w-6 md:w-8 bg-white/20"></span>
+                Jean-Jacques Rousseau
+                <span className="h-[1px] w-6 md:w-8 bg-white/20"></span>
               </p>
             </motion.div>
           </motion.div>
         </div>
 
-        {/* 5-LINE MIDDLE-EXPANDING WAVE */}
+        {/* 5-LINE WAVE */}
         <div className="flex gap-3 h-16 mt-12 items-center justify-center">
           {[...Array(5)].map((_, i) => (
             <motion.div
@@ -80,10 +80,7 @@ function IntroLoader() {
               variants={waveVariants}
               animate="animate"
               className="w-1.5 h-8 bg-white rounded-full"
-              style={{
-                // origin-center ensures it grows/shrinks from the middle
-                transformOrigin: "center", 
-              }}
+              style={{ transformOrigin: "center" }}
             />
           ))}
         </div>
