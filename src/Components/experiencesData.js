@@ -42,7 +42,7 @@ export const experiencesData = [
     logo: tryMeLogo,
   },
   {
-    title: "Data Collection Assistant",
+    title: "Data Collector / Analyzer",
     org: "Mulk News Agency",
     description:
       "As a Data Collection Assistant at Mulk News Agency, I collected, organized, and validated data from over 50 residential housing projects for internal analysis. I supported the development of real estate insights and market reports by ensuring data accuracy, consistency, and usability for strategic decision-making.",
