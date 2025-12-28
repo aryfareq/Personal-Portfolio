@@ -11,6 +11,7 @@ import ToolsMarquee from "./Pages/ToolsMarquee.jsx";
 import ExperiencesSlider from "./Pages/ExperiencesSlider.jsx";
 import Footer from "./Components/Footer.jsx";
 import IntroLoader from "./Components/IntroLoader.jsx";
+import ScrollVerticalTimeline from "./Components/ScrollVerticalTimeline.jsx";
 
 function App() {
   const [showIntro, setShowIntro] = useState(true);
@@ -94,6 +95,7 @@ function App() {
             <ProjectsSlider />
             <ToolsMarquee />
             <ExperiencesSlider />
+            <ScrollVerticalTimeline />
             <Footer />
           </motion.div>
         )}

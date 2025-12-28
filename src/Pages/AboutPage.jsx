@@ -82,12 +82,12 @@ function Ribbon({ position = "top", reverse = false }) {
     >
       <motion.div
         className="
-flex whitespace-nowrap
-font-semibold
-tracking-tight
-text-[#1A314A]/5
-select-none
-text-[14vw] sm:text-[15vw] md:text-[15vw] lg:text-[9vw]
+          flex whitespace-nowrap
+          font-semibold
+          tracking-tight
+          text-[#1A314A]/5
+          select-none
+          text-[14vw] sm:text-[15vw] md:text-[15vw] lg:text-[9vw]
         "
         variants={reverse ? ribbonMotionReverse : ribbonMotion}
         animate="animate"

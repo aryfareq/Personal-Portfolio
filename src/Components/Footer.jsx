@@ -16,7 +16,7 @@ function Footer() {
     <>
       <footer
         id="contact"
-        className="bg-[#1E344C] text-white px-6 sm:px-10 lg:px-20 py-12 sm:py-16"
+        className="bg-[#0B1A29FF] text-white px-6 sm:px-10 lg:px-20 py-12 sm:py-16"
       >
         {/* TOP SECTION */}
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-16">
